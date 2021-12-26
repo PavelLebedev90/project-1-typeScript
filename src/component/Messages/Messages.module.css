@@ -1,0 +1,29 @@
+
+ul{
+    list-style: none;
+}
+.messages{
+    display: flex;
+    justify-content: space-around;
+    font-size: 20px;
+    line-height: 35px;
+    margin: 0 auto;
+    background-color: #617070;
+    border-radius: 7px;
+}
+
+.item{
+    padding: 25px;
+    display: inline-block;
+    border-right: 2px solid #2c556e;
+
+}
+.item ul{
+    text-align: center;
+}
+
+.dialog{
+    text-align: center;
+    display: inline-block;
+    padding: 25px;
+}

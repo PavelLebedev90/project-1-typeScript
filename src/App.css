@@ -1,9 +1,38 @@
-.wrapper {
-  max-width: 1200px;
-  font-family: Arial, sans-serif;
-  font-weight: bolder;
-  font-size: 20px;
-  margin: 0 auto;
+.app-wrapper{
+    box-sizing: border-box;
+}
+.wrapper_bg{
+  /*  width: 100%;
+    height: max-content;*/
 }
 
-
+.wrapper_bg::after {
+    height: 100ch;
+    width: 100%;
+    content: "";
+    background: url("collage.jpg") round fixed ;
+    opacity: 0.5;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -2;
+}
+.wrapper_bg::before{
+    height: 100ch;
+    content: "";
+    background: black;
+    opacity: 0.8;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position:absolute;
+    z-index: -1;
+}
+/*
+.wrapper_content{
+    width:900px;
+    margin: 0 auto;
+}*/
