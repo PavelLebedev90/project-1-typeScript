@@ -3,25 +3,21 @@ import s from './Profile.module.css';
 import MyPosts from "./MyPosts/MyPosts";
 import classes from "./../SignUp/SignUp.module.css";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {ActionType, PostType} from '../../Redux/State';
+import {ActionType, PostType, ProfilePageType} from '../../Redux/State';
+import MyPostsContainer from './MyPosts/MyPostsContainer';
 
 
 type statePostsType = {
-    statePosts: Array<PostType>
-/*    addTask: () => void
-    UpdateNewPostText: (newPost:string)=>void*/
+    statePosts: ProfilePageType
     dispatch: (action: ActionType)=>void
 }
 
-const Profile = (props: statePostsType) => {
+const Profile = () => {
     return (
         <div className={`${classes.sign} ${s.profile}`}>
             <ProfileInfo/>
-            <MyPosts statePost = {props.statePosts}
-                   /*  addTask = {props.addTask}
-                     UpdateNewPostText={props.UpdateNewPostText}*/
-                dispatch={props.dispatch}
-            />
+     {/*  <MyPostsContainer statePost={props.statePosts} dispatch={props.dispatch}/>*/}
+            <MyPostsContainer/>
         </div>
     )
 }

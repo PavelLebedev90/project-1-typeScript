@@ -1,4 +1,4 @@
-import React, {Dispatch} from 'react';
+import React from 'react';
 import './App.css';
 
 
@@ -10,29 +10,21 @@ import Music from './component/Music/Music';
 import Settings from './component/Settings/Settings';
 import {Header} from './component/Header/Header';
 import {SignUp} from './component/SignUp/SignUp';
-import {ActionType, DataType, StateType, store} from './Redux/State';
+import {ActionType, StateType} from './Redux/State';
 
 
 type AppType = {
     state: StateType
-    /*    addTask: () => void
-        UpdateNewPostText: (newPost:string)=>void*/
     dispatch: (action: ActionType) => void
 }
 
-const App = (props: AppType) => {
+const App = () => {
     return (
-
         <div className={'wrapper_bg'}>
             <Header/>
             <Routes>
-                <Route path="/profile/*" element={<Profile statePosts={props.state.profilePage.posts}
-                    /*      addTask = {props.addTask}
-                          UpdateNewPostText={props.UpdateNewPostText}*/
-                                                           dispatch={props.dispatch}
-                />}/>
-                <Route path="/messages/*" element={<Messages stateDialogs={props.state.dialogsPage}
-                                                             dispatch={props.dispatch}/>}/>
+                <Route path="/profile/*" element={<Profile/>}/>
+                <Route path="/messages/*" element={<Messages/>}/>
                 <Route path="/news/*" element={<News/>}/>
                 <Route path="/music/*" element={<Music/>}/>
                 <Route path="/settings/*" element={<Settings/>}/>

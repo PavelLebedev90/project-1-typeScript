@@ -1,7 +1,8 @@
 import {v1} from 'uuid';
-import {rerenderTree} from '../render';
-import {addPost_AC, profileReducer, updateNewPostText_AC} from './profile-reducer';
+import {ActionProfileType, addPost_AC, profileReducer, updateNewPostText_AC} from './profile-reducer';
 import {addDialog_AC, dialogsReducer, updateNewDialogText_AC} from './dialogs-reducer';
+
+
 export type ActionType = ReturnType<typeof addPost_AC> | ReturnType<typeof updateNewPostText_AC> |
     ReturnType<typeof addDialog_AC> |
     ReturnType<typeof updateNewDialogText_AC>
@@ -21,7 +22,7 @@ export type MessageType = {
 export type DialogsPageType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    newDialogText:string
+    newDialogText: string
 }
 export type ProfilePageType = {
     posts: Array<PostType>
@@ -40,6 +41,7 @@ export type DataType = {
 }
 
 
+/*
 export const store: DataType = {
     _state: {
         profilePage: {
@@ -74,7 +76,8 @@ export const store: DataType = {
     dispatch(action) {
         this._state.profilePage = profileReducer(this._state.profilePage, action)
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
-        rerenderTree()
+        //rerenderTree(this._state)
     }
 }
+*/
 

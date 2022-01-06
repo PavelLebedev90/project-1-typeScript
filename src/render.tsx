@@ -1,24 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import {BrowserRouter} from "react-router-dom";
-import {store} from "./Redux/State";
-
-
-export const rerenderTree = ()=>{
-
-
-ReactDOM.render(
-    <BrowserRouter>
-        <App state = {store.getState()}
-         /*    addTask = {store.addTask.bind(store)}
-             UpdateNewPostText = {store.updateNewPostText.bind(store)}*/
-             dispatch={store.dispatch.bind(store)}
-        />
-    </BrowserRouter>
-    , document.getElementById('root'));
-}
+// import React from 'react';
+// import ReactDOM from 'react-dom';
+// import './index.css';
+// import App from './App';
+// import {BrowserRouter} from 'react-router-dom';
+// import store from './Redux/redux-store';
+//
+//
+// export const rerenderTree = () => {
+//     ReactDOM.render(
+//         <BrowserRouter>
+//             <App state={store.getState()}
+//                  dispatch={store.dispatch.bind(store)}
+//             />
+//         </BrowserRouter>
+//         , document.getElementById('root'));
+// }
+let a = 1
+export default a
+console.log('sdfdsf')
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

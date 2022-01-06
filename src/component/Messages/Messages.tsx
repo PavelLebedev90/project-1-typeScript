@@ -4,6 +4,7 @@ import classes from "./../SignUp/SignUp.module.css";
 import {Message} from "./Message/Message";
 import {Dialog} from "./Dialog/Dialog";
 import {ActionType, DataType, DialogsPageType} from '../../Redux/State';
+import {DialogContainer} from './Dialog/DialogContainer';
 
 type MessagesType = {
     stateDialogs:DialogsPageType
@@ -11,23 +12,27 @@ type MessagesType = {
 }
 
 
-function Messages(props: MessagesType) {
-
-
+function Messages() {
     return (
-        <div className={classes.sign}>
-            <div className={s.messages}>
-                <div className={s.item}>
-                    <Message stateMessage = {props.stateDialogs.messages}/>
-
-                </div>
-                <div className={s.dialog}>
-                    <Dialog stateDialog = {props.stateDialogs.dialogs}
-                    dispatch={props.dispatch}/>
-                </div>
-            </div>
-        </div>
-    );
+        <DialogContainer/>
+    )
 }
 
 export default Messages;
+
+
+/*
+(
+    <div className={classes.sign}>
+        <div className={s.messages}>
+            <div className={s.item}>
+                {/!* <Message stateMessage = {props.stateDialogs.messages}/>*!/}
+
+            </div>
+            <div className={s.dialog}>
+                {/!* <DialogContainer stateDialogs={props.stateDialogs} dispatch={props.dispatch}/>*!/}
+                <DialogContainer/>
+            </div>
+        </div>
+    </div>
+);*/

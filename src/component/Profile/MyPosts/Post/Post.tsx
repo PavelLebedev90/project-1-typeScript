@@ -12,8 +12,7 @@ const Post = (props: PostPropsType) => {
         <div className={s.item}>
             {
                 props.post.map(m => (<div key={m.id}>
-                        <img
-                            src='https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/62/62d546ccdfc4a838b2e0d622b1b292bfa2af90ec_full.jpg'/>
+                        <img alt={"photo"} src='https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/62/62d546ccdfc4a838b2e0d622b1b292bfa2af90ec_full.jpg'/>
                         {m.message}
                         <div>
                             <span>like {m.likesCount}</span>
