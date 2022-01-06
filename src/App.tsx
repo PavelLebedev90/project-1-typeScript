@@ -5,12 +5,12 @@ import './App.css';
 import {Route, Routes} from 'react-router-dom';
 import Profile from './component/Profile/Profile';
 import Messages from './component/Messages/Messages';
-import News from './component/News/News';
 import Music from './component/Music/Music';
 import Settings from './component/Settings/Settings';
 import {Header} from './component/Header/Header';
 import {SignUp} from './component/SignUp/SignUp';
 import {ActionType, StateType} from './Redux/State';
+import {UsersContainer} from './component/Users/UsersContainer';
 
 
 type AppType = {
@@ -25,7 +25,7 @@ const App = () => {
             <Routes>
                 <Route path="/profile/*" element={<Profile/>}/>
                 <Route path="/messages/*" element={<Messages/>}/>
-                <Route path="/news/*" element={<News/>}/>
+                <Route path="/users/*" element={<UsersContainer/>}/>
                 <Route path="/music/*" element={<Music/>}/>
                 <Route path="/settings/*" element={<Settings/>}/>
                 <Route path="/sign_up/*" element={<SignUp/>}/>

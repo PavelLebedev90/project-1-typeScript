@@ -16,7 +16,6 @@ const Profile = () => {
     return (
         <div className={`${classes.sign} ${s.profile}`}>
             <ProfileInfo/>
-     {/*  <MyPostsContainer statePost={props.statePosts} dispatch={props.dispatch}/>*/}
             <MyPostsContainer/>
         </div>
     )

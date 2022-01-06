@@ -24,7 +24,7 @@ const initialState = {
     newDialogText: 'Hello!!!'
 }
 
-export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionType): DialogsPageType => {
+export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionDialogsType): DialogsPageType => {
     switch (action.type) {
         case UPDATE_NEW_DIALOG_TEXT:
             return {...state, newDialogText: action.newText}
@@ -34,7 +34,6 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
         default:
             return state
     }
-    return state
 }
 
 

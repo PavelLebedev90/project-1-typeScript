@@ -3,7 +3,6 @@ import {DialogsPageType, DialogType, MessageType} from '../../../Redux/State';
 import {Message} from '../Message/Message';
 import classes from '../../SignUp/SignUp.module.css';
 import s from '../Messages.module.css';
-import {dispatchType} from '../../Profile/MyPosts/MyPostsContainer';
 
 
 type stateDialogType = {

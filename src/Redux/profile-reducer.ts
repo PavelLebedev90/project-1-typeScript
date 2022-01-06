@@ -17,7 +17,7 @@ const initialState: ProfilePageType = {
     newPostText: 'learn React'
 }
 
-export const profileReducer = (state: ProfilePageType = initialState, action: ActionType): ProfilePageType => {
+export const profileReducer = (state: ProfilePageType = initialState, action: ActionProfileType): ProfilePageType => {
     switch (action.type) {
         case ADD_POST:
             let newTask = {id: v1(), message: state.newPostText, likesCount: 0};
@@ -27,7 +27,6 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
         default:
             return state
     }
-    return state
 }
 
 export const addPost_AC = () => {
