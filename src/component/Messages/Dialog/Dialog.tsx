@@ -24,10 +24,7 @@ export function Dialog(props: stateDialogType) {
     const onClick = () => {
       props.onClickHandler()
     }
-    console.log(props.stateMessage)
-    console.log(props.stateDialogs)
-    console.log(props.value)
-    console.log(props.OnchangeHandler)
+
     return (
         <div className={classes.sign}>
             <div className={s.messages}>

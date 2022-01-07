@@ -5,30 +5,36 @@ import Users from './Users';
 import {StateType} from '../../Redux/State';
 import {addDialog_AC, updateNewDialogText_AC} from '../../Redux/dialogs-reducer';
 import {AppStateType} from '../../Redux/redux-store';
-import {ActionUsersType, followed_AC, setUsers_AC, unFollowed_AC, UserType} from '../../Redux/users-reducer';
+import {ActionUsersType, followed_AC, setUsers_AC, unFollowed_AC, UsersType, UserType} from '../../Redux/users-reducer';
+import UsersC, {UsersAPIType} from './UsersClass';
 
 type dispatchUsersType = (action: ActionUsersType) =>void
+export type MapStateType = (state: AppStateType) => {users: Array<UsersAPIType>}
+export type MapDispatchType = (dispatch: dispatchUsersType) => {
+    follow:(userID:number) =>void
+    unFollow:(userID:number)=>void
+    setUsers: (users: Array<UsersAPIType>) =>void
+}
 
-let mapStateToProps = (state: AppStateType) => {
-
+let mapStateToProps:MapStateType = (state: AppStateType) => {
     return {
         users: state.usersPage.users
     }
 }
-let mapDispatchToProps = (dispatch: dispatchUsersType) => {
+let mapDispatchToProps:MapDispatchType = (dispatch: dispatchUsersType) => {
     return {
-        follow: (userID:string) => {
+        follow: (userID:number) => {
             dispatch(followed_AC(userID));
         },
-        unFollow: (userID:string) => {
+        unFollow: (userID:number) => {
             dispatch(unFollowed_AC(userID));
         },
-        setUsers: (users: Array<UserType>) => {
+        setUsers: (users: Array<UsersAPIType>) => {
             dispatch(setUsers_AC(users))
         }
     }
 }
 
 
-export const UsersContainer = connect(mapStateToProps,mapDispatchToProps)(Users)
+export const UsersContainer = connect(mapStateToProps,mapDispatchToProps)(UsersC)
 

@@ -1,5 +1,6 @@
 import {v1} from 'uuid';
 import {ActionType, ProfilePageType} from './State';
+import {UsersAPIType} from '../component/Users/UsersClass';
 
 export type ActionUsersType = ReturnType<typeof followed_AC> |
     ReturnType<typeof unFollowed_AC> |
@@ -25,13 +26,12 @@ const UNFOLLOWED = 'UNFOLLOWED'
 const SET_USERS = 'SET_USERS'
 
 
-const initialState: UsersType = {
-    users: [
-
-    ],
+let initialState:{users: Array<UsersAPIType>} = {
+    users: []
 }
 
-export const usersReducer = (state: UsersType = initialState, action: ActionUsersType): UsersType => {
+export const usersReducer = (state = initialState, action: ActionUsersType): {users: Array<UsersAPIType>} => {
+
     switch (action.type) {
         case FOLLOWED:
         return {...state, users: state.users.map(m=>m.id === action.userID?
@@ -46,20 +46,20 @@ export const usersReducer = (state: UsersType = initialState, action: ActionUser
     }
 }
 
-export const followed_AC = (userID:string) => {
+export const followed_AC = (userID:number) => {
     return {
         type: FOLLOWED,
         userID
     } as const
 }
-export const unFollowed_AC = (userID: string) => {
+export const unFollowed_AC = (userID: number) => {
     return {
         type: UNFOLLOWED,
         userID
     } as const
 }
 
-export const setUsers_AC = (users: Array<UserType>) => {
+export const setUsers_AC = (users: Array<UsersAPIType>) => {
     return {
         type: SET_USERS,
         users

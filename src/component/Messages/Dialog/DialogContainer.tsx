@@ -10,7 +10,6 @@ type dispatchDialogType =  (action: ActionDialogsType) => void
 
 
 let mapStateToProps = (state: AppStateType) => {
-    console.log(state)
     return {
         stateDialogs: state.dialogsPage.dialogs,
         stateMessage: state.dialogsPage.messages,
