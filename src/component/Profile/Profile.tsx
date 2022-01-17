@@ -1,21 +1,18 @@
-import React, {Dispatch} from 'react';
+import React from 'react';
 import s from './Profile.module.css';
-import MyPosts from "./MyPosts/MyPosts";
-import classes from "./../SignUp/SignUp.module.css";
-import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
-import {ActionType, PostType, ProfilePageType} from '../../Redux/State';
+import classes from './../SignUp/SignUp.module.css';
+import {ProfileInfo} from './ProfileInfo/ProfileInfo';
 import MyPostsContainer from './MyPosts/MyPostsContainer';
+import {ProfileAPIType} from './ProfileContainer';
 
-
-type statePostsType = {
-    statePosts: ProfilePageType
-    dispatch: (action: ActionType)=>void
+type ProfileType = {
+    profile:ProfileAPIType[]
 }
 
-const Profile = () => {
+const Profile = (props:ProfileType) => {
     return (
         <div className={`${classes.sign} ${s.profile}`}>
-            <ProfileInfo/>
+            <ProfileInfo profile={props.profile}/>
             <MyPostsContainer/>
         </div>
     )

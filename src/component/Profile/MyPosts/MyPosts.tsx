@@ -1,22 +1,22 @@
 import React, {ChangeEvent} from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
-import {addPost_AC, updateNewPostText_AC} from '../../../Redux/profile-reducer';
-import {ActionType, PostType} from '../../../Redux/State';
+import {PostType} from '../../../Redux/profile-reducer';
+
 
 
 type statePostType = {
     statePost: Array<PostType>
     addPost: () => void
     value:string
-    OnchangeHandler: (title:string)=>void
+    updateNewPostText: (title:string)=>void
 }
 
 
 const MyPosts = (props: statePostType) => {
 
     const onChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
-      props.OnchangeHandler(e.currentTarget.value)
+      props.updateNewPostText(e.currentTarget.value)
     }
 
     const addPostHandler = () => {

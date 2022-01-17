@@ -3,27 +3,26 @@ import './App.css';
 
 
 import {Route, Routes} from 'react-router-dom';
-import Profile from './component/Profile/Profile';
 import Messages from './component/Messages/Messages';
 import Music from './component/Music/Music';
 import Settings from './component/Settings/Settings';
 import {Header} from './component/Header/Header';
 import {SignUp} from './component/SignUp/SignUp';
-import {ActionType, StateType} from './Redux/State';
 import {UsersContainer} from './component/Users/UsersContainer';
+import ProfileContainer from './component/Profile/ProfileContainer';
 
 
-type AppType = {
-    state: StateType
-    dispatch: (action: ActionType) => void
-}
+
+
+
 
 const App = () => {
     return (
         <div className={'wrapper_bg'}>
             <Header/>
             <Routes>
-                <Route path="/profile/*" element={<Profile/>}/>
+                <Route path="/profile" element={<ProfileContainer/>}/>
+                <Route path="/profile/:userId" element={<ProfileContainer/>}/>
                 <Route path="/messages/*" element={<Messages/>}/>
                 <Route path="/users/*" element={<UsersContainer/>}/>
                 <Route path="/music/*" element={<Music/>}/>

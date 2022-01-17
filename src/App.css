@@ -2,15 +2,14 @@
     box-sizing: border-box;
 }
 .wrapper_bg{
-  /*  width: 100%;
-    height: max-content;*/
+    height: 100%;
 }
 
 .wrapper_bg::after {
-    height: 100ch;
+    height: 100%;
     width: 100%;
     content: "";
-    background: url("collage.jpg") round fixed ;
+    background: url("collage.jpg") round fixed  ;
     opacity: 0.5;
     top: 0;
     left: 0;
@@ -20,7 +19,7 @@
     z-index: -2;
 }
 .wrapper_bg::before{
-    height: 100ch;
+    height: 100%;
     content: "";
     background: black;
     opacity: 0.8;
@@ -36,3 +35,7 @@
     width:900px;
     margin: 0 auto;
 }*/
+.paginate{
+    color: black;
+    display: flex;
+}

@@ -21,3 +21,35 @@
     padding: 5px;
     border-radius: 5px;
 }
+.currentPage{
+    font-weight: bold;
+}
+.preloader{
+    box-sizing: border-box;
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border: 50px solid #617070;
+    border-bottom: 50px solid #e4f5ff;
+    border-top: 50px solid #2c00e6;
+    border-radius: 50px;
+    animation-name: circle;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-duration: 3000ms;
+    z-index: 10;
+    position: absolute;
+}
+@keyframes circle{
+
+    0%{
+
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.ItemsPreload{
+    opacity: 0.2;
+}

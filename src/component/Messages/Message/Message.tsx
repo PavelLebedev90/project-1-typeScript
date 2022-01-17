@@ -1,6 +1,7 @@
 import React from "react";
 import {NavLink} from "react-router-dom";
-import {MessageType} from "../../../Redux/State";
+import {MessageType} from '../../../Redux/dialogs-reducer';
+
 
 
 type stateMessageType = {
