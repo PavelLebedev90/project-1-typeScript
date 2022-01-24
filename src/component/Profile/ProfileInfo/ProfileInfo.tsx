@@ -12,7 +12,7 @@ export const ProfileInfo = (props: ProfileInfoType) => {
     return <div>  {
         props.profile.map(m => {
             return (
-                <>
+                <div key={m.userId}>
                     <div>
                         <img className={s.img}
                              src={m.photos.large ? m.photos.large
@@ -28,8 +28,7 @@ export const ProfileInfo = (props: ProfileInfoType) => {
                     <div>
                         {m.contacts.vk}
                     </div>
-
-                </>
+                </div>
 
             )
 

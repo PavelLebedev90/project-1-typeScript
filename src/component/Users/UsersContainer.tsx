@@ -43,8 +43,12 @@ export type UsersAPIType = {
 class UsersClass extends React.Component<FunctionTypeForUsers & InitialStateType> {
 
     componentDidMount() {
+        console.log('UsersClass is mound')
         this.props.setIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
+            {
+                withCredentials:true
+            })
             .then(response => {
                 this.props.setUsers(response.data.items)
                 this.props.setTotalUsersCount(response.data.totalCount)
@@ -55,7 +59,10 @@ class UsersClass extends React.Component<FunctionTypeForUsers & InitialStateType
     currentPageChanged = (page: number) => {
         this.props.setCurrentPage(page)
         this.props.setIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.pageSize}`,
+            {
+                withCredentials:true
+            })
             .then(response => {
                 this.props.setUsers(response.data.items)
                 this.props.setIsFetching(false)
@@ -64,15 +71,9 @@ class UsersClass extends React.Component<FunctionTypeForUsers & InitialStateType
     }
 
     render() {
-
-
         return (
             <div className={classes.sign}>
                 <div>
-                    {/*{pages.map(page => {*/}
-                    {/*    return <span className={this.props.currentPage === page ? userClass.currentPage : ''}*/}
-                    {/*                 onClick={() => this.currentPageChanged(page)}> {page}</span>*/}
-                    {/*})}*/}
                     {this.props.isFetching ? <Preloader/> : null}
 
                     <PaginatedItems itemsPerPage={this.props.pageSize}

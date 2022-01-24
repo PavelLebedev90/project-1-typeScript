@@ -4,6 +4,7 @@ import {zeleboba} from '../Profile/MyPosts/Post/Post';
 import s from '../Profile/MyPosts/Post/Post.module.css';
 import userClass from './Users.module.css'
 import {v1} from 'uuid';
+import {log} from 'util';
 type UsersPropsType = {
     users: Array<UserType>
     follow: (userID: string) => void

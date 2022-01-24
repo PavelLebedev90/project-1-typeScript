@@ -51,12 +51,12 @@ export const usersReducer = (state = initialState, action: ActionUsersType): Ini
     switch (action.type) {
         case FOLLOWED:
         return {...state, users: state.users.map(m=>m.id === action.userID?
-                {...m, followed: true}:m)}
+                {...m, followed: !m.followed}:m)}
         case UNFOLLOWED:
             return {...state, users: state.users.map(m=>m.id === action.userID?
-                    {...m, followed: false}:m)}
+                    {...m, followed: !m.followed}:m)}
         case SET_USERS:
-            return {...state, users: [...action.users]}
+            return {...state, users: action.users}
         case SET_CURRENT_PAGE:
             return {...state, currentPage: action.currentPage}
         case SET_TOTAL_USERS_COUNT:
