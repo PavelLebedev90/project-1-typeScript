@@ -8,6 +8,7 @@ import {avatar, UsersAPIType} from '../UsersContainer';
 import {NavLink} from 'react-router-dom';
 import axios from 'axios';
 import {follow} from '../../../Redux/users-reducer';
+import {changeFollowedUser, changeUnFollowedUser} from '../../../api/api';
 
 
 type ItemsType = {
@@ -15,6 +16,8 @@ type ItemsType = {
     follow: (userID: number) => void
     unFollow: (userID: number) => void
     isFetching: boolean
+    folowInProgress: number[]
+    setFollowProgress: (isFetching: boolean, id:number) => void
 }
 type PaginatedItemsType = {
     itemsPerPage: number
@@ -25,6 +28,8 @@ type PaginatedItemsType = {
     totalUsersCount: number
     pageSize: number
     isFetching: boolean
+    folowInProgress: number[]
+    setFollowProgress: (isFetching: boolean, id:number) => void
 }
 
 function Items({currentItems, ...props}: ItemsType) {
@@ -33,36 +38,26 @@ function Items({currentItems, ...props}: ItemsType) {
     console.log('Items is mound')
 
     const changeFollowed = (id: number, followed: boolean) => {
-        followed
-            ?
-            axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${id}`,
-                {
-                    withCredentials: true,
-                    headers: {
-                        'API-KEY': 'b9ab541c-e0c5-4e3f-a6cb-7e9f4deadb80'
-                    }
-                })
-                .then(response => {
-                    if (response.data.resultCode === 0) {
-                        props.follow(id)
-                    }
+       if(followed){
+           props.setFollowProgress(true, id)
+           changeUnFollowedUser(id)
+               .then(data => {
+                   if (data.resultCode === 0) {
+                       props.follow(id)
+                   }
+                   props.setFollowProgress(false, id)
+               })
+       }else{
+           props.setFollowProgress(true, id)
+           changeFollowedUser(id)
+               .then(data => {
+                   if (data.resultCode === 0) {
+                       props.unFollow(id)
+                   }
+                   props.setFollowProgress(false, id)
 
-                })
-            :
-            axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${id}`, {},
-                {
-                    withCredentials: true,
-                    headers: {
-                        'API-KEY': 'b9ab541c-e0c5-4e3f-a6cb-7e9f4deadb80'
-                    }
-                })
-                .then(response => {
-                    if (response.data.resultCode === 0) {
-                        props.unFollow(id)
-                    }
-
-
-                })
+               })
+       }
     }
     return (
         <>
@@ -78,8 +73,8 @@ function Items({currentItems, ...props}: ItemsType) {
 
                         <div>
 
-                                <button
-                                    onClick={() => changeFollowed(m.id, m.followed)}>{m.followed? 'unFollow': 'follow'}</button>
+                            <button disabled={props.folowInProgress.some(id=>id===m.id)}
+                                onClick={() => changeFollowed(m.id, m.followed)}>{m.followed ? 'unFollow' : 'follow'}</button>
 
 
                         </div>
@@ -129,7 +124,11 @@ export function PaginatedItems({itemsPerPage, ...props}: PaginatedItemsType) {
     return (
         <>
             <Items currentItems={props.users} unFollow={props.unFollow} follow={props.follow}
-                   isFetching={props.isFetching}/>
+                   isFetching={props.isFetching}
+                   folowInProgress={props.folowInProgress}
+                   setFollowProgress={props.setFollowProgress}
+
+            />
             <ReactPaginate
                 className={'paginate'}
                 breakLabel="..."

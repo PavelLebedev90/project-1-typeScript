@@ -6,6 +6,7 @@ import {connect, useDispatch, useSelector} from 'react-redux';
 import {AppStateType} from '../../Redux/redux-store';
 import {ProfilePageType, setUserProfile} from '../../Redux/profile-reducer';
 import {useParams} from 'react-router-dom';
+import {getUserProfile} from '../../api/api';
 
 
 export type ProfileAPIType = {
@@ -29,37 +30,8 @@ export type ProfileAPIType = {
     }
     userId: number
 }
-type MapDispatchType = {
-    setUserProfile: (profile: ProfileAPIType) => void
-}
-// class ProfileContainer extends React.Component<MapDispatchType & ProfilePageType> {
-//     componentDidMount() {
-//         axios
-//             .get(`https://social-network.samuraijs.com/api/1.0/profile/10`)
-//             .then(response => {
-//                 console.log(response.data)
-//                 this.props.setUserProfile(response.data)
-//
-//             })
-//     }
-//
-//     render() {
-//         return (
-//             <><Profile profile={this.props.profile}/>
-//                 <ProfileContainer1/></>
-//         )
-//     }
-// }
-//
-// let mapStateToProps = (state: AppStateType) => {
-//     return {
-//         profile: state.profilePage.profile,
-//         posts: state.profilePage.posts,
-//         newPostText:state.profilePage.newPostText
-//     }
-// }
-//
-// export default connect(mapStateToProps, {setUserProfile})(ProfileContainer);
+
+
 
 
 const ProfileContainer = () => {
@@ -70,11 +42,10 @@ const ProfileContainer = () => {
    let id = userId
 
     useEffect(() => {
-        if(!id) id = '2'
-        axios
-            .get(`https://social-network.samuraijs.com/api/1.0/profile/${id}`)
-            .then(response => {
-                dispatch(setUserProfile(response.data))
+        if(!id) id = '21570'
+        getUserProfile(id)
+            .then(data => {
+                dispatch(setUserProfile(data))
 
             })
     }, [userId])

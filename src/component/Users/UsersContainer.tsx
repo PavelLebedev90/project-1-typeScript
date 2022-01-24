@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import userClass from './Users.module.css'
 import {
     ActionUsersType, follow,
-    InitialStateType, setCurrentPage, setIsFetching, setTotalUsersCount, setUsers, unFollow,
+    InitialStateType, setCurrentPage, setFollowProgress, setIsFetching, setTotalUsersCount, setUsers, unFollow,
 
 } from '../../Redux/users-reducer';
 import {AppStateType} from '../../Redux/redux-store';
@@ -11,6 +11,7 @@ import axios from 'axios';
 import classes from '../SignUp/SignUp.module.css';
 import {PaginatedItems} from './Paginate/Paginate';
 import Preloader from '../Common/Preloader/Preloader';
+import {getUsers} from '../../api/api';
 
 type dispatchUsersType = (action: ActionUsersType) => void
 export type MapStateType = (state: AppStateType) => InitialStateType
@@ -22,6 +23,7 @@ export type FunctionTypeForUsers = {
     setCurrentPage: (page: number) => void
     setTotalUsersCount: (totalUsersCount: number) => void
     setIsFetching: (isFetching: boolean) => void
+    setFollowProgress: (isFetching: boolean, id:number) => void
 }
 
 export const avatar = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaznFcbeSJTVKFzMptmjTuD6XEAkUuN7SxkA&usqp=CAU'
@@ -45,13 +47,11 @@ class UsersClass extends React.Component<FunctionTypeForUsers & InitialStateType
     componentDidMount() {
         console.log('UsersClass is mound')
         this.props.setIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`,
-            {
-                withCredentials:true
-            })
-            .then(response => {
-                this.props.setUsers(response.data.items)
-                this.props.setTotalUsersCount(response.data.totalCount)
+
+            getUsers(this.props.currentPage,this.props.pageSize)
+            .then(data => {
+                this.props.setUsers(data.items)
+                this.props.setTotalUsersCount(data.totalCount)
                 this.props.setIsFetching(false)
             })
     }
@@ -59,12 +59,10 @@ class UsersClass extends React.Component<FunctionTypeForUsers & InitialStateType
     currentPageChanged = (page: number) => {
         this.props.setCurrentPage(page)
         this.props.setIsFetching(true)
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${page}&count=${this.props.pageSize}`,
-            {
-                withCredentials:true
-            })
-            .then(response => {
-                this.props.setUsers(response.data.items)
+
+        getUsers(page,this.props.pageSize)
+            .then(data => {
+                this.props.setUsers(data.items)
                 this.props.setIsFetching(false)
 
             })
@@ -84,40 +82,11 @@ class UsersClass extends React.Component<FunctionTypeForUsers & InitialStateType
                                     currentPageChanged={this.currentPageChanged}
                                     totalUsersCount={this.props.totalUsersCount}
                                     pageSize={this.props.pageSize}
+                                    folowInProgress={this.props.folowInProgress}
+                                    setFollowProgress={this.props.setFollowProgress}
                     />
 
                 </div>
-                {
-                    // this.props.users.map((m: UsersAPIType) => {
-                    //     return (
-                    //         <div key={m.id} className={userClass.wrapper}>
-                    //             <div className={userClass.ava}>
-                    //                 <div className={s.item}>
-                    //                     <img src={m.photos.large ? m.photos.large :
-                    //                         m.photos.small ? m.photos.small : avatar} alt="avatar"/>
-                    //                 </div>
-                    //                 <div>
-                    //                     {m.followed ? <button
-                    //                             onClick={() => this.props.unFollow(m.id)}>{m.followed ? 'unFollowed' : 'followed'}</button>
-                    //                         : <button
-                    //                             onClick={() => this.props.follow(m.id)}>{m.followed ? 'unFollowed' : 'followed'}</button>}
-                    //
-                    //                 </div>
-                    //             </div>
-                    //             <div className={userClass.description}>
-                    //                 <div>
-                    //                     <div>{m.name}</div>
-                    //                     <div>{m.status}</div>
-                    //                 </div>
-                    //                 <div>
-                    //                     <div>{m.uniqueUrlName}</div>
-                    //                     <div>m.location.city</div>
-                    //                 </div>
-                    //             </div>
-                    //         </div>
-                    //     )
-                    // })
-                }
             </div>
 
         )
@@ -133,7 +102,8 @@ export let mapStateToProps: MapStateType = (state: AppStateType) => {
         pageSize: state.usersPage.pageSize,
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching
+        isFetching: state.usersPage.isFetching,
+        folowInProgress:state.usersPage.folowInProgress
     }
 }
 
@@ -144,5 +114,6 @@ export const UsersContainer = connect(mapStateToProps, {
     setCurrentPage,
     setTotalUsersCount,
     setIsFetching,
+    setFollowProgress
 })(UsersClass)
 

@@ -6,25 +6,25 @@ import axios from 'axios';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../Redux/redux-store';
 import {InitialStateAuthType, setUserData} from '../../Redux/auth-reducer';
+import {getMe} from '../../api/api';
 
 export type mapStateToProps = {
-    isAuth:boolean
+    isAuth: boolean
     login: null | string
     userId: null | number
     email: null | string
 }
 export type mapDispathToProps = {
-    setUserData:(userId: number, email: string, login: string) =>void
+    setUserData: (userId: number, email: string, login: string) => void
 }
 
 class SignUpContainer extends React.Component<mapDispathToProps & InitialStateAuthType> {
 
     componentDidMount() {
-        axios.get('https://social-network.samuraijs.com/api/1.0/auth/me',
-            {withCredentials: true})
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    let {id, email, login} = response.data.data
+        getMe()
+            .then(data => {
+                if (data.resultCode === 0) {
+                    let {id, email, login} = data.data
                     this.props.setUserData(id, email, login)
                 }
             })
@@ -33,7 +33,7 @@ class SignUpContainer extends React.Component<mapDispathToProps & InitialStateAu
     render() {
         return (
             <SignUp
-                 login={this.props.login} isAuth={this.props.isAuth}
+                login={this.props.login} isAuth={this.props.isAuth}
             />
         )
     }
@@ -41,12 +41,12 @@ class SignUpContainer extends React.Component<mapDispathToProps & InitialStateAu
 }
 
 const mapStateToProps = (state: AppStateType) => {
- return {
-     isAuth: state.auth.isAuth,
-     login: state.auth.login,
-     userId: state.auth.userId,
-     email: state.auth.email
- }
+    return {
+        isAuth: state.auth.isAuth,
+        login: state.auth.login,
+        userId: state.auth.userId,
+        email: state.auth.email
+    }
 
 }
 export default connect(mapStateToProps, {setUserData})(SignUpContainer)

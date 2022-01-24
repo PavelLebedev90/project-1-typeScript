@@ -7,6 +7,7 @@ export type ActionUsersType = ReturnType<typeof follow> |
 |ReturnType<typeof setCurrentPage>
 | ReturnType<typeof setTotalUsersCount>
 | ReturnType<typeof setIsFetching>
+| ReturnType<typeof setFollowProgress>
 
 export type UsersType = {
     [key:string]: Array<UserType>
@@ -29,6 +30,7 @@ const SET_USERS = 'SET_USERS'
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE'
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT'
 const SET_IS_FETCHING = 'SET_IS_FETCHING'
+const SET_FOLLOW_IN_PROGRESS = 'SET_FOLLOW_IN_PROGRESS'
 
 export type InitialStateType = {
     users: Array<UsersAPIType>
@@ -36,6 +38,7 @@ export type InitialStateType = {
     totalUsersCount: number
     currentPage: number
     isFetching:boolean
+    folowInProgress: number[]
 }
 
 let initialState:InitialStateType = {
@@ -43,7 +46,8 @@ let initialState:InitialStateType = {
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    folowInProgress: []
 }
 
 export const usersReducer = (state = initialState, action: ActionUsersType): InitialStateType => {
@@ -63,6 +67,14 @@ export const usersReducer = (state = initialState, action: ActionUsersType): Ini
             return {...state, totalUsersCount: action.totalUsersCount}
         case SET_IS_FETCHING:
             return {...state, isFetching: action.isFetching}
+        case SET_FOLLOW_IN_PROGRESS:
+          return   action.isFetching
+                ?
+           {
+               ...state, folowInProgress: [...state.folowInProgress, action.userId]
+           }
+           :
+              {...state, folowInProgress: state.folowInProgress.filter(f=>f !==action.userId)}
         default:
             return state
     }
@@ -103,5 +115,12 @@ export const setIsFetching = (isFetching:boolean) => {
     return {
         type: SET_IS_FETCHING,
         isFetching
+    } as const
+}
+export const setFollowProgress = (isFetching:boolean, userId:number) => {
+    return {
+        type: SET_FOLLOW_IN_PROGRESS,
+        isFetching,
+        userId
     } as const
 }
