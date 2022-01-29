@@ -17,7 +17,7 @@ type ItemsType = {
     unFollow: (userID: number) => void
     isFetching: boolean
     folowInProgress: number[]
-    setFollowProgress: (isFetching: boolean, id:number) => void
+
 }
 type PaginatedItemsType = {
     itemsPerPage: number
@@ -29,7 +29,6 @@ type PaginatedItemsType = {
     pageSize: number
     isFetching: boolean
     folowInProgress: number[]
-    setFollowProgress: (isFetching: boolean, id:number) => void
 }
 
 function Items({currentItems, ...props}: ItemsType) {
@@ -39,24 +38,26 @@ function Items({currentItems, ...props}: ItemsType) {
 
     const changeFollowed = (id: number, followed: boolean) => {
        if(followed){
-           props.setFollowProgress(true, id)
-           changeUnFollowedUser(id)
-               .then(data => {
-                   if (data.resultCode === 0) {
-                       props.follow(id)
-                   }
-                   props.setFollowProgress(false, id)
-               })
+           props.unFollow(id)
+           // props.setFollowProgress(true, id)
+           // changeUnFollowedUser(id)
+           //     .then(data => {
+           //         if (data.resultCode === 0) {
+           //             props.follow(id)
+           //         }
+           //         props.setFollowProgress(false, id)
+           //     })
        }else{
-           props.setFollowProgress(true, id)
-           changeFollowedUser(id)
-               .then(data => {
-                   if (data.resultCode === 0) {
-                       props.unFollow(id)
-                   }
-                   props.setFollowProgress(false, id)
-
-               })
+           props.follow(id)
+           // props.setFollowProgress(true, id)
+           // changeFollowedUser(id)
+           //     .then(data => {
+           //         if (data.resultCode === 0) {
+           //             props.unFollow(id)
+           //         }
+           //         props.setFollowProgress(false, id)
+           //
+           //     })
        }
     }
     return (
@@ -126,7 +127,7 @@ export function PaginatedItems({itemsPerPage, ...props}: PaginatedItemsType) {
             <Items currentItems={props.users} unFollow={props.unFollow} follow={props.follow}
                    isFetching={props.isFetching}
                    folowInProgress={props.folowInProgress}
-                   setFollowProgress={props.setFollowProgress}
+
 
             />
             <ReactPaginate

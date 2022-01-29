@@ -1,3 +1,5 @@
+import {getMe} from '../api/api';
+
 const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA'
 
 
@@ -37,4 +39,14 @@ export const setUserData = (userId: number, email: string, login: string) => {
             }
         } as const
 
+}
+
+export const setUserDataThunk = () =>(dispatch: (action:ActionType)=>void) =>{
+    getMe()
+        .then(data => {
+            if (data.resultCode === 0) {
+                let {id, email, login} = data.data
+                dispatch(setUserData(id, email, login))
+            }
+        })
 }

@@ -1,5 +1,6 @@
 import {v1} from 'uuid';
 import {ProfileAPIType} from '../component/Profile/ProfileContainer';
+import {getUserProfile} from '../api/api';
 
 export type ActionProfileType = ReturnType<typeof addPost> | ReturnType<typeof updateNewPostText> |
     ReturnType<typeof setUserProfile>
@@ -60,4 +61,13 @@ export const setUserProfile = (userProfile: ProfileAPIType) => {
         type: SET_USER_PROFILE,
         userProfile
     } as const
+}
+
+
+export const setUserProfileThunk = (id:string)=>(dispatch:(action:ActionProfileType)=>void)=>{
+    getUserProfile(id)
+        .then(data => {
+            dispatch(setUserProfile(data))
+
+        })
 }

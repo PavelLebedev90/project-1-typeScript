@@ -5,7 +5,7 @@ import {SignUp} from './SignUp';
 import axios from 'axios';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../Redux/redux-store';
-import {InitialStateAuthType, setUserData} from '../../Redux/auth-reducer';
+import {InitialStateAuthType, setUserData, setUserDataThunk} from '../../Redux/auth-reducer';
 import {getMe} from '../../api/api';
 
 export type mapStateToProps = {
@@ -15,19 +15,20 @@ export type mapStateToProps = {
     email: null | string
 }
 export type mapDispathToProps = {
-    setUserData: (userId: number, email: string, login: string) => void
+    setUserDataThunk: () => void
 }
 
 class SignUpContainer extends React.Component<mapDispathToProps & InitialStateAuthType> {
 
     componentDidMount() {
-        getMe()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    let {id, email, login} = data.data
-                    this.props.setUserData(id, email, login)
-                }
-            })
+        this.props.setUserDataThunk()
+        // getMe()
+        //     .then(data => {
+        //         if (data.resultCode === 0) {
+        //             let {id, email, login} = data.data
+        //             this.props.setUserData(id, email, login)
+        //         }
+        //     })
     }
 
     render() {
@@ -49,4 +50,4 @@ const mapStateToProps = (state: AppStateType) => {
     }
 
 }
-export default connect(mapStateToProps, {setUserData})(SignUpContainer)
+export default connect(mapStateToProps, {setUserDataThunk})(SignUpContainer)

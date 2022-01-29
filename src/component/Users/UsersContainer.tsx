@@ -1,8 +1,18 @@
 import {connect} from 'react-redux';
 import userClass from './Users.module.css'
 import {
-    ActionUsersType, follow,
-    InitialStateType, setCurrentPage, setFollowProgress, setIsFetching, setTotalUsersCount, setUsers, unFollow,
+    ActionUsersType,
+    follow,
+    followThunk,
+    getUsersThunk,
+    InitialStateType,
+    setCurrentPage,
+    setFollowProgress,
+    setIsFetching,
+    setTotalUsersCount,
+    setUsers,
+    unFollow,
+    unfollowThunk,
 
 } from '../../Redux/users-reducer';
 import {AppStateType} from '../../Redux/redux-store';
@@ -17,13 +27,15 @@ type dispatchUsersType = (action: ActionUsersType) => void
 export type MapStateType = (state: AppStateType) => InitialStateType
 export type MapDispatchType = (dispatch: dispatchUsersType) => FunctionTypeForUsers
 export type FunctionTypeForUsers = {
-    follow: (userID: number) => void
-    unFollow: (userID: number) => void
-    setUsers: (users: Array<UsersAPIType>) => void
+    followThunk: (userID: number) => void
+    unfollowThunk: (userID: number) => void
+    // setUsers: (users: Array<UsersAPIType>) => void
     setCurrentPage: (page: number) => void
-    setTotalUsersCount: (totalUsersCount: number) => void
-    setIsFetching: (isFetching: boolean) => void
+    // setTotalUsersCount: (totalUsersCount: number) => void
+    // setIsFetching: (isFetching: boolean) => void
     setFollowProgress: (isFetching: boolean, id:number) => void
+    // getUsersThunk: (currentPage:number,pageSize:number) => (dispatch:(action:ActionUsersType)=>void) =>void
+    getUsersThunk:(currentPage:number,pageSize:number) =>void
 }
 
 export const avatar = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaznFcbeSJTVKFzMptmjTuD6XEAkUuN7SxkA&usqp=CAU'
@@ -45,27 +57,29 @@ export type UsersAPIType = {
 class UsersClass extends React.Component<FunctionTypeForUsers & InitialStateType> {
 
     componentDidMount() {
-        console.log('UsersClass is mound')
-        this.props.setIsFetching(true)
-
-            getUsers(this.props.currentPage,this.props.pageSize)
-            .then(data => {
-                this.props.setUsers(data.items)
-                this.props.setTotalUsersCount(data.totalCount)
-                this.props.setIsFetching(false)
-            })
+        this.props.getUsersThunk(this.props.currentPage,this.props.pageSize)
+        // console.log('UsersClass is mound')
+        // this.props.setIsFetching(true)
+        //
+        //     getUsers(this.props.currentPage,this.props.pageSize)
+        //     .then(data => {
+        //         this.props.setUsers(data.items)
+        //         this.props.setTotalUsersCount(data.totalCount)
+        //         this.props.setIsFetching(false)
+        //     })
     }
 
     currentPageChanged = (page: number) => {
+        this.props.getUsersThunk(page,this.props.pageSize)
         this.props.setCurrentPage(page)
-        this.props.setIsFetching(true)
-
-        getUsers(page,this.props.pageSize)
-            .then(data => {
-                this.props.setUsers(data.items)
-                this.props.setIsFetching(false)
-
-            })
+        // this.props.setIsFetching(true)
+        //
+        // getUsers(page,this.props.pageSize)
+        //     .then(data => {
+        //         this.props.setUsers(data.items)
+        //         this.props.setIsFetching(false)
+        //
+        //     })
     }
 
     render() {
@@ -77,13 +91,12 @@ class UsersClass extends React.Component<FunctionTypeForUsers & InitialStateType
                     <PaginatedItems itemsPerPage={this.props.pageSize}
                                     isFetching= {this.props.isFetching}
                                     users={this.props.users}
-                                    follow={this.props.follow}
-                                    unFollow={this.props.unFollow}
+                                    follow={this.props.followThunk}
+                                    unFollow={this.props.unfollowThunk}
                                     currentPageChanged={this.currentPageChanged}
                                     totalUsersCount={this.props.totalUsersCount}
                                     pageSize={this.props.pageSize}
                                     folowInProgress={this.props.folowInProgress}
-                                    setFollowProgress={this.props.setFollowProgress}
                     />
 
                 </div>
@@ -108,12 +121,10 @@ export let mapStateToProps: MapStateType = (state: AppStateType) => {
 }
 
 export const UsersContainer = connect(mapStateToProps, {
-    follow,
-    unFollow,
-    setUsers,
+    followThunk,
+    unfollowThunk,
     setCurrentPage,
-    setTotalUsersCount,
-    setIsFetching,
-    setFollowProgress
+    setFollowProgress,
+     getUsersThunk
 })(UsersClass)
 

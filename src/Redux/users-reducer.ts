@@ -1,4 +1,5 @@
 import {UsersAPIType} from '../component/Users/UsersContainer';
+import {changeFollowedUser, changeUnFollowedUser, getUsers} from '../api/api';
 
 
 export type ActionUsersType = ReturnType<typeof follow> |
@@ -123,4 +124,35 @@ export const setFollowProgress = (isFetching:boolean, userId:number) => {
         isFetching,
         userId
     } as const
+}
+
+export const getUsersThunk = (currentPage:number,pageSize:number)=>(dispatch:(action:ActionUsersType)=>void)=>{
+    dispatch(setIsFetching(true))
+    getUsers(currentPage,pageSize)
+        .then(data => {
+            dispatch(setUsers(data.items))
+            dispatch(setTotalUsersCount(data.totalCount))
+            dispatch(setIsFetching(false))
+        })
+}
+export const followThunk = (id:number)=>(dispatch:(action:ActionUsersType)=>void)=>{
+    dispatch(setFollowProgress(true, id))
+    changeFollowedUser(id)
+        .then(data => {
+            if (data.resultCode === 0) {
+                dispatch(unFollow(id))
+            }
+            dispatch(setFollowProgress(false, id))
+
+        })
+}
+export const unfollowThunk = (id:number)=>(dispatch:(action:ActionUsersType)=>void)=>{
+    dispatch(setFollowProgress(true, id))
+    changeUnFollowedUser(id)
+        .then(data => {
+            if (data.resultCode === 0) {
+                dispatch(follow(id))
+            }
+            dispatch(setFollowProgress(false, id))
+        })
 }

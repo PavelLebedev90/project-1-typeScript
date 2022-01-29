@@ -4,7 +4,7 @@ import axios from 'axios';
 import Profile from './Profile';
 import {connect, useDispatch, useSelector} from 'react-redux';
 import {AppStateType} from '../../Redux/redux-store';
-import {ProfilePageType, setUserProfile} from '../../Redux/profile-reducer';
+import {ProfilePageType, setUserProfile, setUserProfileThunk} from '../../Redux/profile-reducer';
 import {useParams} from 'react-router-dom';
 import {getUserProfile} from '../../api/api';
 
@@ -43,11 +43,12 @@ const ProfileContainer = () => {
 
     useEffect(() => {
         if(!id) id = '21570'
-        getUserProfile(id)
-            .then(data => {
-                dispatch(setUserProfile(data))
-
-            })
+        dispatch(setUserProfileThunk(id))
+        // getUserProfile(id)
+        //     .then(data => {
+        //         dispatch(setUserProfile(data))
+        //
+        //     })
     }, [userId])
 
     return (
