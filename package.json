@@ -31,7 +31,7 @@
     "uuid": "^8.3.2",
     "web-vitals": "^1.0.1"
   },
-  "homepage": "http://PavelLebedev90.github.io/SocialNet",
+  "homepage": "http://PavelLebedev90.github.io/project-1-typeScript",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
