@@ -9,7 +9,8 @@ let mapStateToProps = (state: AppStateType) => {
     return {
         stateDialogs: state.dialogsPage.dialogs,
         stateMessage: state.dialogsPage.messages,
-        value: state.dialogsPage.newDialogText
+        value: state.dialogsPage.newDialogText,
+        isAuth: state.auth.isAuth
     }
 }
 

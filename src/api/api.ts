@@ -1,4 +1,5 @@
-import axios, {AxiosInstance} from 'axios';
+import axios from 'axios';
+import {FormDataType} from '../component/SignUp/Login';
 
 
 const instance = axios.create({
@@ -27,5 +28,21 @@ export const changeUnFollowedUser = (id:number)=>{
 
 export const changeFollowedUser = (id:number)=>{
     return instance.post(`follow/${id}`, {}).then(response=>response.data)
+}
+
+export const getStatus = (id:string)=>{
+    return instance.get(`profile/status/${id}`)
+}
+
+export const updateStatus = (status:string)=>{
+    return instance.put(`profile/status`, {status})
+}
+
+export const newUserLogin = (data:FormDataType)=>{
+    return instance.post<FormDataType>(`/auth/login`, {
+        email:data.login,
+        password:data.password,
+        rememberMe:data.rememberMe
+    })
 }
 

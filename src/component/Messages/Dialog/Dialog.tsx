@@ -1,8 +1,9 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useEffect} from 'react';
 import {Message} from '../Message/Message';
 import classes from '../../SignUp/SignUp.module.css';
 import s from '../Messages.module.css';
 import {DialogType, MessageType} from '../../../Redux/dialogs-reducer';
+import {useNavigate} from 'react-router-dom';
 
 
 type stateDialogType = {
@@ -11,12 +12,12 @@ type stateDialogType = {
     addDialog: () => void
     value: string
     stateMessage: Array<MessageType>
-
+    isAuth: boolean
 }
 
 
 export function Dialog(props: stateDialogType) {
-
+const redirect = useNavigate();
     const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
         props.updateNewDialogText(e.currentTarget.value)
     }
@@ -24,6 +25,11 @@ export function Dialog(props: stateDialogType) {
     const onClick = () => {
         props.addDialog()
     }
+    useEffect(() => {
+        if (!props.isAuth) {
+            redirect('/sign_up')
+        }
+    }, [])
 
     return (
         <div className={classes.sign}>

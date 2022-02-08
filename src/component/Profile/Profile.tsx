@@ -7,12 +7,13 @@ import {ProfileAPIType} from './ProfileContainer';
 
 type ProfileType = {
     profile:ProfileAPIType[]
+    status:string
 }
 
 const Profile = (props:ProfileType) => {
     return (
         <div className={`${classes.sign} ${s.profile}`}>
-            <ProfileInfo profile={props.profile}/>
+            <ProfileInfo profile={props.profile} status={props.status}/>
             <MyPostsContainer/>
         </div>
     )

@@ -1,12 +1,9 @@
 import React, {useEffect} from 'react';
-
-import axios from 'axios';
 import Profile from './Profile';
-import {connect, useDispatch, useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {AppStateType} from '../../Redux/redux-store';
-import {ProfilePageType, setUserProfile, setUserProfileThunk} from '../../Redux/profile-reducer';
-import {useParams} from 'react-router-dom';
-import {getUserProfile} from '../../api/api';
+import {getUserStatusThunk, setUserProfileThunk} from '../../Redux/profile-reducer';
+import {useNavigate, useParams} from 'react-router-dom';
 
 
 export type ProfileAPIType = {
@@ -32,28 +29,33 @@ export type ProfileAPIType = {
 }
 
 
-
-
 const ProfileContainer = () => {
     const dispatch = useDispatch()
     const profile = useSelector<AppStateType, ProfileAPIType[]>(state => state.profilePage.profile)
+    const isAuth = useSelector<AppStateType, boolean>(state => state.auth.isAuth)
+    const status = useSelector<AppStateType, string>(state => state.profilePage.status)
     let {userId} = useParams();
+    const redirect = useNavigate()
 
-   let id = userId
+    let id = userId
 
     useEffect(() => {
-        if(!id) id = '21570'
+        if (!id) id = '21570'
         dispatch(setUserProfileThunk(id))
-        // getUserProfile(id)
-        //     .then(data => {
-        //         dispatch(setUserProfile(data))
-        //
-        //     })
+        dispatch(getUserStatusThunk(id))
+
     }, [userId])
+
+    useEffect(() => {
+        if (!isAuth) {
+            redirect('/sign_up')
+        }
+    }, [])
+
 
     return (
         <div>
-            <Profile profile={profile}/>
+            <Profile profile={profile} status={status}/>
         </div>
     );
 };

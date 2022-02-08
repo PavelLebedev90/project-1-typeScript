@@ -1,12 +1,8 @@
 import React from 'react';
-import classes from './SignUp.module.css';
-import {NavLink} from 'react-router-dom';
 import {SignUp} from './SignUp';
-import axios from 'axios';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../Redux/redux-store';
-import {InitialStateAuthType, setUserData, setUserDataThunk} from '../../Redux/auth-reducer';
-import {getMe} from '../../api/api';
+import {setUserDataThunk} from '../../Redux/auth-reducer';
 
 export type mapStateToProps = {
     isAuth: boolean
@@ -18,7 +14,7 @@ export type mapDispathToProps = {
     setUserDataThunk: () => void
 }
 
-class SignUpContainer extends React.Component<mapDispathToProps & InitialStateAuthType> {
+class SignUpContainer extends React.Component<mapDispathToProps & mapStateToProps> {
 
     componentDidMount() {
         this.props.setUserDataThunk()
