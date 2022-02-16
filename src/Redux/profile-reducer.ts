@@ -1,15 +1,16 @@
 import {v1} from 'uuid';
 import {ProfileAPIType} from '../component/Profile/ProfileContainer';
 import {getStatus, getUserProfile, updateStatus} from '../api/api';
+import {MyPostFormType} from '../component/Profile/MyPosts/MyPostForm';
 
-export type ActionProfileType = ReturnType<typeof addPost> | ReturnType<typeof updateNewPostText> |
-    ReturnType<typeof setUserProfile>
+export type ActionProfileType =
+    ReturnType<typeof addPost>
+    | ReturnType<typeof setUserProfile>
 | ReturnType<typeof setUserStatus>
 
 export type ProfilePageType = {
     profile: Array<ProfileAPIType>
     posts: Array<PostType>
-    newPostText: string
     status:string
 }
 export type PostType = {
@@ -18,7 +19,6 @@ export type PostType = {
     likesCount: number
 }
 const ADD_POST = 'ADD_POST'
-const UPDATE_NEW_POST_TEXT = 'UPDATE_NEW_POST_TEXT'
 const SET_USER_PROFILE = 'SET_USER_PROFILE'
 const SET_STATUS = 'SET_STATUS'
 
@@ -30,17 +30,14 @@ const initialState: ProfilePageType = {
         {id: v1(), message: 'It\'s my first post', likesCount: 5},
         {id: v1(), message: 'What are you doing maaaaaan?', likesCount: 16},
     ],
-    newPostText: 'learn React',
     status: ''
 }
 
 export const profileReducer = (state: ProfilePageType = initialState, action: ActionProfileType): ProfilePageType => {
     switch (action.type) {
         case ADD_POST:
-            let newTask = {id: v1(), message: state.newPostText, likesCount: 0};
-            return  {...state, posts: [...state.posts, newTask],newPostText: '' }
-        case UPDATE_NEW_POST_TEXT:
-            return {...state, newPostText: action.newText}
+            let newTask = {id: v1(), message: action.data.newPostText, likesCount: 0};
+            return  {...state, posts: [...state.posts, newTask] }
         case SET_USER_PROFILE:
             return {...state, profile: [action.userProfile]}
         case SET_STATUS:
@@ -50,17 +47,13 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
     }
 }
 
-export const addPost = () => {
+export const addPost = (data:MyPostFormType) => {
     return {
-        type: ADD_POST
+        type: ADD_POST,
+        data
     } as const
 }
-export const updateNewPostText = (newText: string) => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        newText
-    } as const
-}
+
 
 export const setUserProfile = (userProfile: ProfileAPIType) => {
     return {

@@ -1,8 +1,10 @@
-import {getMe, newUserLogin} from '../api/api';
+import {getMe, userLogin, userLogout} from '../api/api';
 import {FormDataType} from '../component/SignUp/Login';
+import {Dispatch} from 'react';
+import {stopSubmit} from 'redux-form';
 
 const SET_AUTH_USER_DATA = 'SET_AUTH_USER_DATA'
-const SET_FORM_DATA = 'SET_FORM_DATA'
+
 
 
 let initialStateAuth = {
@@ -11,7 +13,7 @@ let initialStateAuth = {
     login: null,
     isAuth: false,
     password: null,
-    rememberMe:false
+    rememberMe: false
 
 }
 export type InitialStateAuthType = {
@@ -28,43 +30,30 @@ export const authReducer = (state: InitialStateAuthType = initialStateAuth, acti
             return {
                 ...state,
                 ...action.data,
-                isAuth: true
+
             }
-        case SET_FORM_DATA:
-            return {
-                ...state,
-             ...action.data
-            }
+
         default:
             return state
     }
 }
-type ActionType = ReturnType<typeof setUserData> | ReturnType<typeof setUserFormData>
+type ActionType = ReturnType<typeof setUserData>
 
 
-export const setUserData = (userId: number, email: string, login: string) => {
+export const setUserData =
+    (userId: number | null, email: string | null, login: string | null, isAuth:boolean)  => {
     return {
         type: SET_AUTH_USER_DATA,
         data: {
             userId,
             email,
-            login
-        }
-    } as const
-
-}
-
-export const setUserFormData = (login: string, password: string, rememberMe: boolean) => {
-    return {
-        type: SET_FORM_DATA,
-        data: {
-            password,
             login,
-            rememberMe
+            isAuth
         }
     } as const
 
 }
+
 
 
 export const setUserDataThunk = () => (dispatch: (action: ActionType) => void) => {
@@ -72,15 +61,27 @@ export const setUserDataThunk = () => (dispatch: (action: ActionType) => void) =
         .then(data => {
             if (data.resultCode === 0) {
                 let {id, email, login} = data.data
-                dispatch(setUserData(id, email, login))
+                console.log(data)
+                dispatch(setUserData(id, email, login, true))
             }
         })
 }
 
-export const setFormDataThunk = (data: FormDataType) => (dispatch: (action: ActionType) => void) => {
-    newUserLogin(data)
+export const login = (data: FormDataType) => (dispatch: any) => {
+    userLogin(data)
+        .then((res) => {
+          if(res.data.resultCode === 0){
+              dispatch(setUserDataThunk())
+          }else{
+              const error = res.data.messages.length > 0 ? res.data.messages[0] : 'some Error'
+              dispatch(stopSubmit('login', {_error:error}))
+          }
+        })
+}
+
+export const logout = () => (dispatch: Dispatch<any>) => {
+    userLogout()
         .then(() => {
-           let {password, login, rememberMe} = data
-            dispatch(setUserFormData(login, password, rememberMe))
+            dispatch(setUserData(null, null, null, false))
         })
 }

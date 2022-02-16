@@ -1,16 +1,15 @@
-import React, {ChangeEvent, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Message} from '../Message/Message';
 import classes from '../../SignUp/SignUp.module.css';
 import s from '../Messages.module.css';
 import {DialogType, MessageType} from '../../../Redux/dialogs-reducer';
 import {useNavigate} from 'react-router-dom';
+import {AddMessageFormContainer, AddMessageFormType} from './AddMessageForm';
 
 
 type stateDialogType = {
     stateDialogs: Array<DialogType>
-    updateNewDialogText: (title: string) => void
-    addDialog: () => void
-    value: string
+    addDialog: (data: AddMessageFormType) => void
     stateMessage: Array<MessageType>
     isAuth: boolean
 }
@@ -18,18 +17,18 @@ type stateDialogType = {
 
 export function Dialog(props: stateDialogType) {
 const redirect = useNavigate();
-    const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.updateNewDialogText(e.currentTarget.value)
-    }
 
-    const onClick = () => {
-        props.addDialog()
-    }
+
     useEffect(() => {
         if (!props.isAuth) {
             redirect('/sign_up')
         }
     }, [])
+
+
+    const onSubmitNewMessage = (data: AddMessageFormType)=>{
+        props.addDialog(data)
+    }
 
     return (
         <div className={classes.sign}>
@@ -41,8 +40,7 @@ const redirect = useNavigate();
                     {
                         props.stateDialogs.map(m => <div key={m.id}>{m.title}</div>)
                     }
-                    <textarea value={props.value} onChange={onChange}/>
-                    <button onClick={onClick}>add</button>
+                    <AddMessageFormContainer onSubmit={onSubmitNewMessage}/>
                 </div>
             </div>
         </div>

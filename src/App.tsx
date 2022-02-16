@@ -11,14 +11,15 @@ import ProfileContainer from './component/Profile/ProfileContainer';
 import SignUpContainer from './component/SignUp/SignUpContainer';
 import {DialogContainer} from './component/Messages/Dialog/DialogContainer';
 import {FormDataType, LoginReduxForm} from './component/SignUp/Login';
-import {setFormDataThunk} from './Redux/auth-reducer';
+import {login} from './Redux/auth-reducer';
 import {useDispatch} from 'react-redux';
 
 
 const App = () => {
     let dispatch = useDispatch()
+
     const onSubmit = (data:FormDataType) => {
-        dispatch(setFormDataThunk(data))
+        dispatch(login(data))
     }
 
 

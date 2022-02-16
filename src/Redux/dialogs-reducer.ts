@@ -1,12 +1,13 @@
 import {v1} from 'uuid';
+import {AddMessageFormType} from '../component/Messages/Dialog/AddMessageForm';
 
 
-export type ActionDialogsType = ReturnType<typeof addDialog> | ReturnType<typeof updateNewDialogText>
+export type ActionDialogsType = ReturnType<typeof addDialog>
+
 
 export type DialogsPageType = {
     dialogs: Array<DialogType>
     messages: Array<MessageType>
-    newDialogText: string
 }
 export type DialogType = {
     id: string
@@ -17,7 +18,7 @@ export type MessageType = {
     name: string
 }
 const ADD_DIALOG_AC = 'ADD_DIALOG_AC'
-const UPDATE_NEW_DIALOG_TEXT = 'UPDATE_NEW_DIALOG_TEXT'
+
 
 const initialState = {
     dialogs: [
@@ -34,30 +35,22 @@ const initialState = {
         {id: v1(), name: 'Kostya'},
         {id: v1(), name: 'Misha'},
     ],
-    newDialogText: 'Hello!!!'
 }
 
 export const dialogsReducer = (state: DialogsPageType = initialState, action: ActionDialogsType): DialogsPageType => {
     switch (action.type) {
-        case UPDATE_NEW_DIALOG_TEXT:
-            return {...state, newDialogText: action.newText}
         case ADD_DIALOG_AC:
-            let newDialog: DialogType = {id: v1(), title: state.newDialogText}
-            return  {...state, dialogs: [...state.dialogs, newDialog],newDialogText: '' }
+            let newDialog: DialogType = {id: v1(), title: action.data.newMessage}
+            return  {...state, dialogs: [...state.dialogs, newDialog]}
         default:
             return state
     }
 }
 
 
-export const updateNewDialogText = (newText: string) => {
-    return {
-        type: UPDATE_NEW_DIALOG_TEXT,
-        newText
-    } as const
-}
-export const addDialog = () => {
+export const addDialog = (data:AddMessageFormType) => {
     return {
         type: ADD_DIALOG_AC,
+        data
     } as const
 }

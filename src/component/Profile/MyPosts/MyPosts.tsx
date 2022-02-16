@@ -1,34 +1,28 @@
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import s from './MyPosts.module.css';
 import Post from './Post/Post';
 import {PostType} from '../../../Redux/profile-reducer';
-
+import {MyPostFormContainer, MyPostFormType} from './MyPostForm';
+import {reset, ResetAction} from 'redux-form';
 
 
 type statePostType = {
     statePost: Array<PostType>
-    addPost: () => void
-    value:string
-    updateNewPostText: (title:string)=>void
+    addPost: (data: MyPostFormType) => void
 }
 
 
 const MyPosts = (props: statePostType) => {
 
-    const onChange = (e:ChangeEvent<HTMLTextAreaElement>) => {
-      props.updateNewPostText(e.currentTarget.value)
-    }
-
-    const addPostHandler = () => {
-            props.addPost();
+    const onSubmitNewPostText = (data: MyPostFormType) => {
+        props.addPost(data)
     }
 
     return (
         <div>
             My posts
             <div className={s.posts}>
-                <textarea onChange={onChange} value={props.value}/>
-                <button onClick={addPostHandler}>Add post</button>
+                <MyPostFormContainer onSubmit={onSubmitNewPostText}/>
             </div>
             <div>
                 <Post post={props.statePost}/>
@@ -37,5 +31,5 @@ const MyPosts = (props: statePostType) => {
         </div>
     )
 }
-
 export default MyPosts;
+

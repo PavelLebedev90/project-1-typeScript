@@ -38,11 +38,14 @@ export const updateStatus = (status:string)=>{
     return instance.put(`profile/status`, {status})
 }
 
-export const newUserLogin = (data:FormDataType)=>{
-    return instance.post<FormDataType>(`/auth/login`, {
+export const userLogin = (data:FormDataType)=>{
+    return instance.post(`/auth/login`, {
         email:data.login,
         password:data.password,
         rememberMe:data.rememberMe
     })
+}
+export const userLogout = ()=>{
+    return instance.delete(`/auth/login`)
 }
 
